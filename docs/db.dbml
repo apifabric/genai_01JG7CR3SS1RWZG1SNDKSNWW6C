@@ -1,0 +1,110 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+City: Represents a city built by a player.
+Player: Represents a player in the Settlers of Catan game.
+DevelopmentCard: Represents development cards held by a player.
+DiceRoll: Represents the result of a dice roll.
+Game: Represents a single game instance.
+GamePlayer: Junction table associating games with players.
+PlayerResource: Junction table associating players with resources they own.
+Resource: Represents the resource types in the game (e.g. Brick, Wood).
+Road: Represents a road built by a player.
+Settlement: Represents a settlement built by a player.
+Tile: Represents a tile on the board and its resource type.
+Trade: Represents trades between players.
+'''
+}
+
+Table City {
+    id INTEGER [primary key]
+    player_id INTEGER 
+    location VARCHAR 
+    }
+
+Table Player {
+    id INTEGER [primary key]
+    name VARCHAR 
+    color VARCHAR 
+    }
+
+Table DevelopmentCard {
+    id INTEGER [primary key]
+    player_id INTEGER 
+    Type VARCHAR 
+    }
+
+Table DiceRoll {
+    id INTEGER [primary key]
+    roll_number INTEGER 
+    date_time DATETIME 
+    }
+
+Table Game {
+    id INTEGER [primary key]
+    date_time DATETIME 
+    }
+
+Table GamePlayer {
+    id INTEGER [primary key]
+    game_id INTEGER 
+    player_id INTEGER 
+    }
+
+Table PlayerResource {
+    id INTEGER [primary key]
+    player_id INTEGER 
+    resource_id INTEGER 
+    amount INTEGER 
+    }
+
+Table Resource {
+    id INTEGER [primary key]
+    name VARCHAR 
+    }
+
+Table Road {
+    id INTEGER [primary key]
+    player_id INTEGER 
+    start_location VARCHAR 
+    end_location VARCHAR 
+    }
+
+Table Settlement {
+    id INTEGER [primary key]
+    player_id INTEGER 
+    location VARCHAR 
+    }
+
+Table Tile {
+    id INTEGER [primary key]
+    resource_id INTEGER 
+    number INTEGER 
+    }
+
+Table Trade {
+    id INTEGER [primary key]
+    from_player_id INTEGER 
+    to_player_id INTEGER 
+    resource_id INTEGER 
+    amount INTEGER 
+    }
+
+
+
+// Relationships
+    Ref: City.(player_id) < Player.(id)
+    Ref: DevelopmentCard.(player_id) < Player.(id)
+    Ref: GamePlayer.(game_id) < Game.(id)
+    Ref: GamePlayer.(player_id) < Player.(id)
+    Ref: PlayerResource.(player_id) < Player.(id)
+    Ref: PlayerResource.(resource_id) < Resource.(id)
+    Ref: Road.(player_id) < Player.(id)
+    Ref: Settlement.(player_id) < Player.(id)
+    Ref: Tile.(resource_id) < Resource.(id)
+    Ref: Trade.(from_player_id) < Player.(id)
+    Ref: Trade.(resource_id) < Resource.(id)
+    Ref: Trade.(to_player_id) < Player.(id)

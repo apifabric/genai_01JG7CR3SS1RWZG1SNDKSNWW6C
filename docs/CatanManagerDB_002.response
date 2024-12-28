@@ -1,0 +1,118 @@
+{
+    "models": [
+        {
+            "classname": "Player",
+            "code": "class Player(Base):\n    __tablename__ = 'player'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String)\n    color = Column(String)",
+            "description": "Represents a player in the Settlers of Catan game.",
+            "name": "player"
+        },
+        {
+            "classname": "Resource",
+            "code": "class Resource(Base):\n    __tablename__ = 'resource'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String)\n\n",
+            "description": "Represents the resource types in the game (e.g. Brick, Wood).",
+            "name": "resource"
+        },
+        {
+            "classname": "PlayerResource",
+            "code": "class PlayerResource(Base):\n    __tablename__ = 'player_resource'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    player_id = Column(Integer, ForeignKey('player.id'))\n    resource_id = Column(Integer, ForeignKey('resource.id'))\n    amount = Column(Integer)",
+            "description": "Junction table associating players with resources they own.",
+            "name": "player_resource"
+        },
+        {
+            "classname": "City",
+            "code": "class City(Base):\n    __tablename__ = 'city'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    player_id = Column(Integer, ForeignKey('player.id'))\n    location = Column(String)",
+            "description": "Represents a city built by a player.",
+            "name": "city"
+        },
+        {
+            "classname": "Settlement",
+            "code": "class Settlement(Base):\n    __tablename__ = 'settlement'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    player_id = Column(Integer, ForeignKey('player.id'))\n    location = Column(String)",
+            "description": "Represents a settlement built by a player.",
+            "name": "settlement"
+        },
+        {
+            "classname": "Road",
+            "code": "class Road(Base):\n    __tablename__ = 'road'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    player_id = Column(Integer, ForeignKey('player.id'))\n    start_location = Column(String)\n    end_location = Column(String)",
+            "description": "Represents a road built by a player.",
+            "name": "road"
+        },
+        {
+            "classname": "Trade",
+            "code": "class Trade(Base):\n    __tablename__ = 'trade'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    from_player_id = Column(Integer, ForeignKey('player.id'))\n    to_player_id = Column(Integer, ForeignKey('player.id'))\n    resource_id = Column(Integer, ForeignKey('resource.id'))\n    amount = Column(Integer)",
+            "description": "Represents trades between players.",
+            "name": "trade"
+        },
+        {
+            "classname": "DevelopmentCard",
+            "code": "class DevelopmentCard(Base):\n    __tablename__ = 'development_card'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    player_id = Column(Integer, ForeignKey('player.id'))\n    type = Column(String)",
+            "description": "Represents development cards held by a player.",
+            "name": "development_card"
+        },
+        {
+            "classname": "Tile",
+            "code": "class Tile(Base):\n    __tablename__ = 'tile'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    resource_id = Column(Integer, ForeignKey('resource.id'))\n    number = Column(Integer)",
+            "description": "Represents a tile on the board and its resource type.",
+            "name": "tile"
+        },
+        {
+            "classname": "DiceRoll",
+            "code": "class DiceRoll(Base):\n    __tablename__ = 'dice_roll'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    roll_number = Column(Integer)\n    date_time = Column(DateTime)",
+            "description": "Represents the result of a dice roll.",
+            "name": "dice_roll"
+        },
+        {
+            "classname": "Game",
+            "code": "class Game(Base):\n    __tablename__ = 'game'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    date_time = Column(DateTime)",
+            "description": "Represents a single game instance.",
+            "name": "game"
+        },
+        {
+            "classname": "GamePlayer",
+            "code": "class GamePlayer(Base):\n    __tablename__ = 'game_player'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    game_id = Column(Integer, ForeignKey('game.id'))\n    player_id = Column(Integer, ForeignKey('player.id'))",
+            "description": "Junction table associating games with players.",
+            "name": "game_player"
+        }
+    ],
+    "rules": [],
+    "test_data": "Begin with Player \"Alice\" with color \"red\" and given initial resources of 5 \"Brick\" and 3 \"Wood\".",
+    "test_data_rows": [
+        {
+            "test_data_row_variable": "player1",
+            "code": "player1 = Player(id=1, name=\"Alice\", color=\"Red\")"
+        },
+        {
+            "test_data_row_variable": "player2",
+            "code": "player2 = Player(id=2, name=\"Bob\", color=\"Blue\")"
+        },
+        {
+            "test_data_row_variable": "resource1",
+            "code": "resource1 = Resource(id=1, name=\"Brick\")"
+        },
+        {
+            "test_data_row_variable": "resource2",
+            "code": "resource2 = Resource(id=2, name=\"Wood\")"
+        },
+        {
+            "test_data_row_variable": "player_resource1",
+            "code": "player_resource1 = PlayerResource(id=1, player_id=1, resource_id=1, amount=5)"
+        },
+        {
+            "test_data_row_variable": "player_resource2",
+            "code": "player_resource2 = PlayerResource(id=2, player_id=1, resource_id=2, amount=3)"
+        },
+        {
+            "test_data_row_variable": "city1",
+            "code": "city1 = City(id=1, player_id=1, location=\"A1\")"
+        },
+        {
+            "test_data_row_variable": "settlement1",
+            "code": "settlement1 = Settlement(id=1, player_id=1, location=\"B1\")"
+        },
+        {
+            "test_data_row_variable": "road1",
+            "code": "road1 = Road(id=1, player_id=1, start_location=\"A2\", end_location=\"B2\")"
+        }
+    ],
+    "test_data_sqlite": "INSERT INTO player (id, name, color) VALUES (1, \"Alice\", \"Red\");\nINSERT INTO player (id, name, color) VALUES (2, \"Bob\", \"Blue\");\nINSERT INTO resource (id, name) VALUES (1, \"Brick\");\nINSERT INTO resource (id, name) VALUES (2, \"Wood\");\nINSERT INTO player_resource (id, player_id, resource_id, amount) VALUES (1, 1, 1, 5);\nINSERT INTO player_resource (id, player_id, resource_id, amount) VALUES (2, 1, 2, 3);\nINSERT INTO city (id, player_id, location) VALUES (1, 1, \"A1\");\nINSERT INTO settlement (id, player_id, location) VALUES (1, 1, \"B1\");\nINSERT INTO road (id, player_id, start_location, end_location) VALUES (1, 1, \"A2\", \"B2\");",
+    "name": "CatanManagerDB"
+}

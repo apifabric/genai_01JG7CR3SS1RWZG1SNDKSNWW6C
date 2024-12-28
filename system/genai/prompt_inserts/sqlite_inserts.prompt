@@ -1,0 +1,7 @@
+Use SQLAlchemy to create a sqlite database named system/genai/temp/create_db_models.sqlite, to
+
+{{prompt}}.
+
+{{% include 'sqlite_inserts_model_test_hints.prompt' % }}
+
+{{% include 'response_format.prompt' % }}

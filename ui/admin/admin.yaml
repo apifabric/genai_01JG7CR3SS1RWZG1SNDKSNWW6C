@@ -1,0 +1,321 @@
+about:
+  date: December 28, 2024 19:44:23
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 12
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  City:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: player_id
+    - name: location
+    description: Represents a city built by a player.
+    info_list: Represents a city built by a player.
+    tab_groups:
+    - direction: toone
+      fks:
+      - player_id
+      name: player
+      resource: Player
+    type: City
+    user_key: id
+  DevelopmentCard:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: player_id
+    - name: Type
+    description: Represents development cards held by a player.
+    info_list: Represents development cards held by a player.
+    tab_groups:
+    - direction: toone
+      fks:
+      - player_id
+      name: player
+      resource: Player
+    type: DevelopmentCard
+    user_key: id
+  DiceRoll:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: roll_number
+    - name: date_time
+      type: DATETIME
+    description: Represents the result of a dice roll.
+    info_list: Represents the result of a dice roll.
+    type: DiceRoll
+    user_key: id
+  Game:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: date_time
+      type: DATETIME
+    description: Represents a single game instance.
+    info_list: Represents a single game instance.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - game_id
+      name: GamePlayerList
+      resource: GamePlayer
+    type: Game
+    user_key: id
+  GamePlayer:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: game_id
+    - name: player_id
+    description: Junction table associating games with players.
+    info_list: Junction table associating games with players.
+    tab_groups:
+    - direction: toone
+      fks:
+      - game_id
+      name: game
+      resource: Game
+    - direction: toone
+      fks:
+      - player_id
+      name: player
+      resource: Player
+    type: GamePlayer
+    user_key: id
+  Player:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: color
+    - name: id
+    description: Represents a player in the Settlers of Catan game.
+    info_list: Represents a player in the Settlers of Catan game.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - player_id
+      name: CityList
+      resource: City
+    - direction: tomany
+      fks:
+      - player_id
+      name: DevelopmentCardList
+      resource: DevelopmentCard
+    - direction: tomany
+      fks:
+      - player_id
+      name: GamePlayerList
+      resource: GamePlayer
+    - direction: tomany
+      fks:
+      - player_id
+      name: PlayerResourceList
+      resource: PlayerResource
+    - direction: tomany
+      fks:
+      - player_id
+      name: RoadList
+      resource: Road
+    - direction: tomany
+      fks:
+      - player_id
+      name: SettlementList
+      resource: Settlement
+    - direction: tomany
+      fks:
+      - from_player_id
+      name: TradeList
+      resource: Trade
+    - direction: tomany
+      fks:
+      - to_player_id
+      name: toTradeList
+      resource: Trade
+    type: Player
+    user_key: name
+  PlayerResource:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: player_id
+    - name: resource_id
+    - name: amount
+    description: Junction table associating players with resources they own.
+    info_list: Junction table associating players with resources they own.
+    tab_groups:
+    - direction: toone
+      fks:
+      - player_id
+      name: player
+      resource: Player
+    - direction: toone
+      fks:
+      - resource_id
+      name: resource
+      resource: Resource
+    type: PlayerResource
+    user_key: id
+  Resource:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: id
+    description: Represents the resource types in the game (e.g. Brick, Wood).
+    info_list: Represents the resource types in the game (e.g. Brick, Wood).
+    tab_groups:
+    - direction: tomany
+      fks:
+      - resource_id
+      name: PlayerResourceList
+      resource: PlayerResource
+    - direction: tomany
+      fks:
+      - resource_id
+      name: TileList
+      resource: Tile
+    - direction: tomany
+      fks:
+      - resource_id
+      name: TradeList
+      resource: Trade
+    type: Resource
+    user_key: name
+  Road:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: player_id
+    - name: start_location
+    - name: end_location
+    description: Represents a road built by a player.
+    info_list: Represents a road built by a player.
+    tab_groups:
+    - direction: toone
+      fks:
+      - player_id
+      name: player
+      resource: Player
+    type: Road
+    user_key: id
+  Settlement:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: player_id
+    - name: location
+    description: Represents a settlement built by a player.
+    info_list: Represents a settlement built by a player.
+    tab_groups:
+    - direction: toone
+      fks:
+      - player_id
+      name: player
+      resource: Player
+    type: Settlement
+    user_key: id
+  Tile:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: resource_id
+    - name: number
+    description: Represents a tile on the board and its resource type.
+    info_list: Represents a tile on the board and its resource type.
+    tab_groups:
+    - direction: toone
+      fks:
+      - resource_id
+      name: resource
+      resource: Resource
+    type: Tile
+    user_key: id
+  Trade:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: from_player_id
+    - name: resource_id
+    - name: to_player_id
+    - name: amount
+    description: Represents trades between players.
+    info_list: Represents trades between players.
+    tab_groups:
+    - direction: toone
+      fks:
+      - from_player_id
+      name: from_player
+      resource: Player
+    - direction: toone
+      fks:
+      - resource_id
+      name: resource
+      resource: Resource
+    - direction: toone
+      fks:
+      - to_player_id
+      name: to_player
+      resource: Player
+    type: Trade
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'
